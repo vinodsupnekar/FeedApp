@@ -12,30 +12,40 @@ class ReoteFeedLoaderTests: XCTestCase {
   
   class RemoteFeedLoader {
     func load() {
-      HTTPClient.shared.requestedURL = URL(string: "https://a-url.com")
+      HTTPClient.shared.get(from: URL(string: "https://a-url.com")!)
     }
     
   }
 
   class HTTPClient {
-    static let shared = HTTPClient()
+    static var shared = HTTPClient()
     
-    private init() {
+    func get(from url: URL) {
     
     }
+  }
+  
+  class HTTPClientSpy: HTTPClient {
     var requestedURL: URL?
+    
+    override func get(from url: URL) {
+      requestedURL = url
+    }
   }
   
   //Commit:- remote feed loader does not request data on creation
   func test_init_doesNotRequestDataFromURL() {
     _ = RemoteFeedLoader()
-    let client = HTTPClient.shared
+    let client = HTTPClientSpy()
+//    HTTPClient.shared = client
       XCTAssertNil(client.requestedURL)
   }
  
  // Use case:- Load feed items
   func test_load_requestDataFromURL() {
-    let client = HTTPClient.shared
+    let client = HTTPClientSpy()
+       HTTPClient.shared = client
+
     let sut = RemoteFeedLoader()
 
     sut.load()
@@ -45,3 +55,8 @@ class ReoteFeedLoaderTests: XCTestCase {
   }
 
 }
+
+/**
+ We do not have sigleton any more, and the test logic is now in a test type(Spy)
+ 
+ */
