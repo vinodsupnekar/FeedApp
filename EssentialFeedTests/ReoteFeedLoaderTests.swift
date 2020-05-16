@@ -8,35 +8,37 @@
 
 import XCTest
 
-class ReoteFeedLoaderTests: XCTestCase {
-  
-  class RemoteFeedLoader {
-    func load() {
-      HTTPClient.shared.get(from: URL(string: "https://a-url.com")!)
-    }
-    
-  }
+protocol HTTPClient {
+//  static var shared = HTTPClient()
+  func get(from url: URL)
+}
 
-  class HTTPClient {
-    static var shared = HTTPClient()
-    
-    func get(from url: URL) {
-    
-    }
-  }
+class HTTPClientSpy: HTTPClient {
+  var requestedURL: URL?
   
-  class HTTPClientSpy: HTTPClient {
-    var requestedURL: URL?
-    
-    override func get(from url: URL) {
-      requestedURL = url
-    }
+   func get(from url: URL) {
+    requestedURL = url
   }
-  
+}
+
+class RemoteFeedLoader {
+  let client: HTTPClient
+
+  init(client: HTTPClient) {
+    self.client = client
+  }
+  func load() {
+    client.get(from: URL(string: "https://a-url.com")!)
+  }
+}
+
+class ReoteFeedLoaderTests: XCTestCase {
+    
   //Commit:- remote feed loader does not request data on creation
   func test_init_doesNotRequestDataFromURL() {
-    _ = RemoteFeedLoader()
     let client = HTTPClientSpy()
+
+    _ = RemoteFeedLoader(client: client)
 //    HTTPClient.shared = client
       XCTAssertNil(client.requestedURL)
   }
@@ -44,12 +46,10 @@ class ReoteFeedLoaderTests: XCTestCase {
  // Use case:- Load feed items
   func test_load_requestDataFromURL() {
     let client = HTTPClientSpy()
-       HTTPClient.shared = client
-
-    let sut = RemoteFeedLoader()
+//       HTTPClient.shared = client
+    let sut = RemoteFeedLoader(client: client)
 
     sut.load()
-
     //When we sut.load(), then we we will havd client with requestedURL
     XCTAssertNotNil(client.requestedURL)
   }
