@@ -13,13 +13,7 @@ protocol HTTPClient {
   func get(from url: URL)
 }
 
-class HTTPClientSpy: HTTPClient {
-  var requestedURL: URL?
-  
-   func get(from url: URL) {
-    requestedURL = url
-  }
-}
+
 
 class RemoteFeedLoader {
   let client: HTTPClient
@@ -38,29 +32,34 @@ class ReoteFeedLoaderTests: XCTestCase {
     
   //Commit:- remote feed loader does not request data on creation
   func test_init_doesNotRequestDataFromURL() {
-    let client = HTTPClientSpy()
     let url = URL(string: "http://a-given-url.com")!
-
-    _ = RemoteFeedLoader(url: url, client: client)
+    let (client,_) = makeSUT(url: url)
 //    HTTPClient.shared = client
       XCTAssertNil(client.requestedURL)
   }
  
  // Use case:- Load feed items
   func test_load_requestDataFromURL() {
-    let url = URL(string: "http://a-given-url.com")!
-    let client = HTTPClientSpy()
-//       HTTPClient.shared = client
-    let sut = RemoteFeedLoader(url: url,client: client)
-
+     let url = URL(string: "http://a-given-url.com")!
+    let (client,sut) = makeSUT(url: url)
     sut.load()
     //When we sut.load(), then we we will havd client with requestedURL
     XCTAssertEqual(url,client.requestedURL)
   }
+  
+  private func makeSUT(url: URL =  URL(string: "http://a-given-url.com")!) -> (HTTPClientSpy, RemoteFeedLoader) {
+      let client = HTTPClientSpy()
+      let sut = RemoteFeedLoader(url: url,client: client)
+    return (client,sut)
+  }
+  
+ private class HTTPClientSpy: HTTPClient {
+    var requestedURL: URL?
+    
+     func get(from url: URL) {
+      requestedURL = url
+    }
+  }
 
 }
 
-/**
- We do not have sigleton any more, and the test logic is now in a test type(Spy)
- 
- */
