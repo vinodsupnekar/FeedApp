@@ -16,7 +16,7 @@ class ReoteFeedLoaderTests: XCTestCase {
     let url = URL(string: "http://a-given-url.com")!
     let (client,_) = makeSUT(url: url)
 //    HTTPClient.shared = client
-      XCTAssertNil(client.requestedURL)
+     XCTAssertTrue(client.requestedURLs.isEmpty)
   }
  
  // Use case:- Load feed items
@@ -26,7 +26,7 @@ class ReoteFeedLoaderTests: XCTestCase {
      let (client,sut) = makeSUT(url: url)
      sut.load()
      //When we sut.load(), then we we will havd client with requestedURL
-     XCTAssertEqual(url,client.requestedURL)
+     XCTAssertEqual(client.requestedURLs,[url])
    }
   
   func test_loadTwice_requestsDataFromURL() {
@@ -47,11 +47,9 @@ class ReoteFeedLoaderTests: XCTestCase {
   }
   
  private class HTTPClientSpy: HTTPClient {
-   var requestedURL: URL?
  var requestedURLs = [URL]()
    
     func get(from url: URL) {
-     requestedURL = url
      requestedURLs.append(url)
    }
  }
