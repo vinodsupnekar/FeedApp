@@ -60,14 +60,19 @@ class ReoteFeedLoaderTests: XCTestCase {
     let (client,sut) = makeSUT()
     
     //Act:- When we tell the sut to load and we complete the client's HTTP Request with an error
-    var capturedErrors = [RemoteFeedLoader.Error]()
+    let samples = [199,201,300,400,500]
+    samples.enumerated().forEach { index, code in
+      var capturedErrors = [RemoteFeedLoader.Error]()
+      
         sut.load {
           capturedErrors.append($0)
-        }
-    client.complete(withStatusCode: 400)
+      }
+      
+      client.complete(withStatusCode: code,at: index)
+      //Assert:- Then we expect the captured load error to be a connectivity error.
+      XCTAssertEqual(capturedErrors,[.invalidData])
+    }
     
-    //Assert:- Then we expect the captured load error to be a connectivity error.
-   XCTAssertEqual(capturedErrors,[.invalidData])
   }
    
   
@@ -79,7 +84,7 @@ class ReoteFeedLoaderTests: XCTestCase {
   
  private class HTTPClientSpy: HTTPClient {
   var requestedURLs: [URL] {
-    return messeges.map { $0.url}
+    return messeges.map { $0.url }
   }
 
   private var messeges = [(url: URL, completion: (Error?,HTTPURLResponse?) -> Void)]()
