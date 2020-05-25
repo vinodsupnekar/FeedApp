@@ -87,19 +87,19 @@ class ReoteFeedLoaderTests: XCTestCase {
     return messeges.map { $0.url }
   }
 
-  private var messeges = [(url: URL, completion: (Error?,HTTPURLResponse?) -> Void)]()
+  private var messeges = [(url: URL, completion: (HTTPClientResult) -> Void)]()
   
-  func get(from url: URL,completion: @escaping ((Error?,HTTPURLResponse?) -> Void)) {
+  func get(from url: URL,completion: @escaping ((HTTPClientResult) -> Void)) {
       messeges.append((url,completion))
   }
   
   func complete(with error:Error,at index:Int = 0) {
-    messeges[index].completion(error,nil)
+    messeges[index].completion(.failure(error))
   }
   
   func complete(withStatusCode code:Int, at index:Int = 0) {
-    let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)
-    messeges[index].completion(nil,response)
+    let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
+    messeges[index].completion(.success(response))
   }
  }
 
