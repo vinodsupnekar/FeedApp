@@ -42,7 +42,6 @@ class ReoteFeedLoaderTests: XCTestCase {
     
     //Arrange:- Given the sut and it's HTTP client spy
     let (client,sut) = makeSUT()
-    
     //Act:- When we tell the sut to load and we complete the client's HTTP Request with an error
     var capturedErrors = [RemoteFeedLoader.Error]()
         sut.load {
@@ -53,6 +52,22 @@ class ReoteFeedLoaderTests: XCTestCase {
     
     //Assert:- Then we expect the captured load error to be a connectivity error.
    XCTAssertEqual(capturedErrors,[.connectivity])
+  }
+  
+  func test_load_deliversErrorsOnNon200HTTPResponse() {
+    
+    //Arrange:- Given the sut and it's HTTP client spy
+    let (client,sut) = makeSUT()
+    
+    //Act:- When we tell the sut to load and we complete the client's HTTP Request with an error
+    var capturedErrors = [RemoteFeedLoader.Error]()
+        sut.load {
+          capturedErrors.append($0)
+        }
+    client.complete(withStatusCode: 400)
+    
+    //Assert:- Then we expect the captured load error to be a connectivity error.
+   XCTAssertEqual(capturedErrors,[.invalidData])
   }
    
   
@@ -67,14 +82,19 @@ class ReoteFeedLoaderTests: XCTestCase {
     return messeges.map { $0.url}
   }
 
-  private var messeges = [(url: URL, completion: (Error) -> Void)]()
+  private var messeges = [(url: URL, completion: (Error?,HTTPURLResponse?) -> Void)]()
   
-  func get(from url: URL,completion: @escaping ((Error) -> Void)) {
+  func get(from url: URL,completion: @escaping ((Error?,HTTPURLResponse?) -> Void)) {
       messeges.append((url,completion))
   }
   
   func complete(with error:Error,at index:Int = 0) {
-    messeges[index].completion(error)
+    messeges[index].completion(error,nil)
+  }
+  
+  func complete(withStatusCode code:Int, at index:Int = 0) {
+    let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)
+    messeges[index].completion(nil,response)
   }
  }
 
