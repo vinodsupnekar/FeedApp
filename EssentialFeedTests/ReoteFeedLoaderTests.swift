@@ -24,7 +24,7 @@ class ReoteFeedLoaderTests: XCTestCase {
   func test_load_requestsDataFromURL() {
       let url = URL(string: "http://a-given-url.com")!
      let (client,sut) = makeSUT(url: url)
-     sut.load()
+     sut.load(){ _ in  }
      //When we sut.load(), then we we will havd client with requestedURL
      XCTAssertEqual(client.requestedURLs,[url])
    }
@@ -32,8 +32,8 @@ class ReoteFeedLoaderTests: XCTestCase {
   func test_loadTwice_requestsDataFromURL() {
      let url = URL(string: "http://a-given-url.com")!
     let (client,sut) = makeSUT(url: url)
-    sut.load()
-     sut.load()
+    sut.load(){ _ in  }
+     sut.load(){ _ in  }
     //When we sut.load(), then we we will havd client with requestedURL
     XCTAssertEqual(client.requestedURLs,[url,url])
   }
