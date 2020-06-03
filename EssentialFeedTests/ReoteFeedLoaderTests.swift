@@ -40,18 +40,7 @@ class ReoteFeedLoaderTests: XCTestCase {
   
   func test_load_deliversErrorsonClientError() {
     
-    //Arrange:- Given the sut and it's HTTP client spy
     let (client,sut) = makeSUT()
-    //Act:- When we tell the sut to load and we complete the client's HTTP Request with an error
-//    var capturedErrors = [RemoteFeedLoader.Error]()
-//        sut.load {
-//          capturedErrors.append($0)
-//        }
-//    let clientError = NSError(domain: "Test", code: 0)
-//    client.complete(with: clientError)
-    
-    //Assert:- Then we expect the captured load error to be a connectivity error.
-//   XCTAssertEqual(capturedErrors,[.connectivity])
     expect(sut, toCompleteWithError: .connectivity, when: {
       let clientError = NSError(domain: "Test", code: 0)
              client.complete(with: clientError)
@@ -88,19 +77,17 @@ class ReoteFeedLoaderTests: XCTestCase {
        let invalidJSON = Data(bytes: "invalid json".utf8)
               client.complete(withStatusCode: 200, data: invalidJSON)
     }
-
-    }
-  
   }
    
 private func expect(_ sut:RemoteFeedLoader,toCompleteWithError error:RemoteFeedLoader.Error,file: StaticString = #file,line: UInt = #line,when action:() -> Void) {
   
-    var capturedErrors = [RemoteFeedLoader.Error]()
+    var capturedErrors = [RemoteFeedLoader.Result]()
+  
     sut.load {
            capturedErrors.append($0)
        }
        action()
-  XCTAssertEqual(capturedErrors,[error],file: file,line: line)
+  XCTAssertEqual(capturedErrors,[.failure(error)],file: file,line: line)
 }
 
   
