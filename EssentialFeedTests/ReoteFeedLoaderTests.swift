@@ -89,6 +89,30 @@ class ReoteFeedLoaderTests: XCTestCase {
   
   }
   
+  func test_load_deliversNoItemsOn200HTTPResponseWithJSONList() {
+    let (client,sut) = makeSUT()
+    
+    let feedItem1 = FeedItem(id: UUID(),description: nil,location: nil,imageURL: URL(string: "http://a-url.com")!)
+    
+    let feedItem1JSON = ["id":feedItem1.id.uuidString,
+                 "image":feedItem1.imageURL.absoluteString]
+    
+    let feedItem2 = FeedItem(id: UUID(),description: "a description",location: "a location",imageURL: URL(string: "http://a-url.com")!)
+       
+    let feedItem2JSON = ["id":feedItem2.id.uuidString,
+                         "description":feedItem2.description,
+                         "location": feedItem2.location,
+                         "image":feedItem2.imageURL.absoluteString]
+    
+    let itemsJSON = ["items":[feedItem1JSON,feedItem2JSON]]
+    
+      expect(sut, toCompleteWith: .success([feedItem1,feedItem2]), when: {
+        let json = try! JSONSerialization.data(withJSONObject: itemsJSON, options: .fragmentsAllowed)
+        client.complete(withStatusCode: 200, data: json)
+      })
+   
+  }
+  
 }
    
 private func expect(_ sut:RemoteFeedLoader,toCompleteWith result:RemoteFeedLoader.Result,file: StaticString = #file,line: UInt = #line,when action:() -> Void) {

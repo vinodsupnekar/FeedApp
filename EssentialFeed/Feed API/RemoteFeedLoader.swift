@@ -41,16 +41,33 @@ public final class RemoteFeedLoader {
       response in
       switch response{
       case .success(let data,let _):
-          if let _ = try? JSONSerialization.jsonObject(with: data, options: .allowFragments) {
-            completion(.success([]))
-          }
+        
+//        do {
+//          topLevel = try JSONSerialization.jsonObject(with: data)
+//        } catch {
+//          throw DecodingError.dataCorrupted(DecodingError.Context(
+//            codingPath: [],
+//            debugDescription: "The given data was not valid JSON.",
+//            underlyingError: error)
+//          )
+//        }
+        
+        if let root = try? JSONDecoder().decode(Root.self, from: data) {
+          completion(.success(root.items))
+        }
           else {
           completion( .failure(.invalidData))
         }
+        break
         case .failure:
           completion( .failure(.connectivity))
+        break
       }
        
     }
 }
+}
+
+private struct Root: Decodable {
+  let items: [FeedItem]
 }
