@@ -12,9 +12,10 @@ public enum HTTPClientResult {
   case success(Data,HTTPURLResponse)
   case failure(Error)
 }
+
 public protocol HTTPClient {
 //  static var shared = HTTPClient()
-  func get(from url: URL,completion	: @escaping ((HTTPClientResult) -> Void))
+  func get(from url: URL,completion: @escaping ((HTTPClientResult) -> Void))
 }
 
 public final class RemoteFeedLoader {
@@ -40,7 +41,7 @@ public final class RemoteFeedLoader {
     client.get(from: url){
       response in
       switch response{
-      case .success(let data,let _):
+      case .success(let data, _):
         
 //        do {
 //          topLevel = try JSONSerialization.jsonObject(with: data)
@@ -51,13 +52,28 @@ public final class RemoteFeedLoader {
 //            underlyingError: error)
 //          )
 //        }
-        
-        if let root = try? JSONDecoder().decode(Root.self, from: data) {
-          completion(.success(root.items))
-        }
+        do {
+          let root = try? JSONDecoder().decode(Root.self, from: data)
+          if let rt = root {
+          completion(.success(rt.items))
+          }
           else {
-          completion( .failure(.invalidData))
+            completion( .failure(.invalidData))
+
+          }
+          
         }
+        catch {
+          print(error)
+          completion( .failure(.invalidData))
+
+        }
+//        if let root = try? JSONDecoder().decode(Root.self, from: data) {
+//          completion(.success(root.items))
+//        }
+//          else {
+//          completion( .failure(.invalidData))
+//        }
         break
         case .failure:
           completion( .failure(.connectivity))
