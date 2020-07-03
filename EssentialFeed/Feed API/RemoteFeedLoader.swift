@@ -33,13 +33,13 @@ public final class RemoteFeedLoader {
       response in
       switch response{
       case let .success(data, response):
-        do {
-          let items = try FeedItemsMapper.map(data, response)
-          completion(.success(items))
-        }
-        catch {
-          completion( .failure(.invalidData))
-          }
+            do {
+              let items = try FeedItemsMapper.map(data, response)
+              return completion(.success(items))
+            }
+            catch {
+              return  completion(.failure(.invalidData))
+            }
         case .failure:
           completion( .failure(.connectivity))
         break

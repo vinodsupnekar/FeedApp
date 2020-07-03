@@ -60,12 +60,10 @@ class ReoteFeedLoaderTests: XCTestCase {
         client.complete(withStatusCode: code, data: json,at: index)
       }
     }
-    
   }
   
   func test_load_deliversErrorOn200responseWithInvalidJSON(){
        let (client,sut) = makeSUT()
-   
     expect(sut, toCompleteWith: .failure(.invalidData)) {
        let invalidJSON = Data(bytes: "invalid json".utf8)
               client.complete(withStatusCode: 200, data: invalidJSON)
@@ -74,12 +72,10 @@ class ReoteFeedLoaderTests: XCTestCase {
   
   func test_load_deliversNoItemsOn200HTTPResponseWithEmptyJSONList() {
     let (client,sut) = makeSUT()
-  
     expect(sut, toCompleteWith: .success([])) {
       let emptyListJSON = makeItemsJSON([])
          client.complete(withStatusCode: 200, data: emptyListJSON)
     }
-  
   }
   
   func test_load_deliversItemsOn200HTTPResponseWithJSONItems() {
@@ -96,7 +92,6 @@ class ReoteFeedLoaderTests: XCTestCase {
       })
    
   }
-}
 
 private func makeItemsJSON(_ items:[[String:Any]]) -> Data {
   let json = ["items":items]
@@ -104,7 +99,7 @@ private func makeItemsJSON(_ items:[[String:Any]]) -> Data {
 }
 
 private func expect(_ sut:RemoteFeedLoader,toCompleteWith result:RemoteFeedLoader.Result,file: StaticString = #file,line: UInt = #line,when action:() -> Void) {
-  
+    
     var capturedErrors = [RemoteFeedLoader.Result]()
   
     sut.load {
@@ -114,10 +109,22 @@ private func expect(_ sut:RemoteFeedLoader,toCompleteWith result:RemoteFeedLoade
   XCTAssertEqual(capturedErrors,[result],file: file,line: line)
 }
 
-  private func makeSUT(url: URL =  URL(string: "http://a-given-url.com")!) -> (HTTPClientSpy, RemoteFeedLoader) {
+  private func makeSUT(url: URL =  URL(string: "http://a-given-url.com")!,file: StaticString = #file, line: UInt = #line) -> (HTTPClientSpy, RemoteFeedLoader) {
       let client = HTTPClientSpy()
       let sut = RemoteFeedLoader(url: url,client: client)
+      
+    trackMemoryLeaks(sut)
+    trackMemoryLeaks(client)
+    
     return (client,sut)
+    
+  }
+  
+  private func trackMemoryLeaks (_ instance: AnyObject,file: StaticString = #file, line: UInt = #line) {
+    addTeardownBlock { [weak instance] in
+      XCTAssertNil(instance,"instance should have been deallocated.Potential memory leak.",file: file,line: line)
+      
+    }
   }
 
 private func makeItem(id: UUID, description: String? = nil,location: String? = nil,imageURL: URL) -> (model: FeedItem, json: [String:Any]) {
@@ -129,6 +136,8 @@ private func makeItem(id: UUID, description: String? = nil,location: String? = n
                 if e.value != nil { acc[e.key] = e.value }
                 }
   return (item,json)
+}
+
 }
 
  private class HTTPClientSpy: HTTPClient {
