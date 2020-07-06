@@ -72,12 +72,20 @@
 			path = "Feed API";
 			sourceTree = "<group>";
 		};
+		DA37AF6024B2FDF200A4F6AC /* Feed API */ = {
+			isa = PBXGroup;
+			children = (
+				DA624F0C246FE48B00E00798 /* ReoteFeedLoaderTests.swift */,
+			);
+			path = "Feed API";
+			sourceTree = "<group>";
+		};
 		DA624F02246FD20F00E00798 /* EssentialFeedTests */ = {
 			isa = PBXGroup;
 			children = (
 				DA624F03246FD20F00E00798 /* EssentialFeedTests.swift */,
 				DA624F05246FD20F00E00798 /* Info.plist */,
-				DA624F0C246FE48B00E00798 /* ReoteFeedLoaderTests.swift */,
+				DA37AF6024B2FDF200A4F6AC /* Feed API */,
 			);
 			path = EssentialFeedTests;
 			sourceTree = "<group>";
