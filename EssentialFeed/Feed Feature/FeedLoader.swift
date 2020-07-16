@@ -8,9 +8,9 @@
 
 import Foundation
 
-enum LoadFeeedResult {
+public enum LoadFeeedResult: Equatable {
     case success([FeedItem])
-    case error(Error)
+    case failure(Error)
 }
 // Using "Error" type here need to consider:-
 /*1.Staring from abstractions bear risk. For Example, over abstracting
@@ -23,5 +23,5 @@ to accomodat future needs(that will never happen) can unnecessarily damage/compl
  */
 
 protocol FeedLoader {
-    func FeedLoad (completion: @escaping (LoadFeeedResult) -> Void)
+    func load(completion: @escaping (LoadFeeedResult) -> Void)
 }
