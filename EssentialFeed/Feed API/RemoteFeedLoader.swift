@@ -8,24 +8,23 @@
 
 import Foundation
 
-public enum Error: Swift.Error {
-   case connectivity
-   case invalidData
- }
-
 public final class RemoteFeedLoader {
   private let url: URL
   private let client: HTTPClient
   
+  public enum Error: Swift.Error {
+    case connectivity
+    case invalidData
+  }
   
-  public typealias Result = LoadFeeedResult
+  public typealias Result = LoadFeeedResult<Error>
   
   public init(url: URL,client: HTTPClient) {
     self.client = client
     self.url = url
   }
   
-  public func load(completion:  @escaping (LoadFeeedResult) -> Void) {
+  public func load(completion:  @escaping (LoadFeeedResult<Error>) -> Void) {
     client.get(from: url){ [weak self] response in
       guard self != nil else { return }
       switch response{
@@ -38,9 +37,6 @@ public final class RemoteFeedLoader {
        
     }
  }
-  
-
-  
 }
 
 

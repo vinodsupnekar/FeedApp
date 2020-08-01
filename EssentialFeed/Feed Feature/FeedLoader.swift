@@ -8,10 +8,14 @@
 
 import Foundation
 
-public enum LoadFeeedResult: Equatable {
+public enum LoadFeeedResult<Error: Swift.Error> {
     case success([FeedItem])
     case failure(Error)
 }
+
+
+extension LoadFeeedResult: Equatable where Error: Equatable {}
+
 // Using "Error" type here need to consider:-
 /*1.Staring from abstractions bear risk. For Example, over abstracting
 to accomodat future needs(that will never happen) can unnecessarily damage/complicate the current design.
@@ -23,5 +27,7 @@ to accomodat future needs(that will never happen) can unnecessarily damage/compl
  */
 
 protocol FeedLoader {
-    func load(completion: @escaping (LoadFeeedResult) -> Void)
+  associatedtype Error: Swift.Error
+  
+  func load(completion: @escaping (LoadFeeedResult<Error>) -> Void)
 }

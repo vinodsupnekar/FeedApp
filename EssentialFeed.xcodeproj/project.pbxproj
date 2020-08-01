@@ -111,9 +111,9 @@
 		FA3FDB66246456F500374611 /* EssentialFeed */ = {
 			isa = PBXGroup;
 			children = (
-				DA0A38D82473AB3900691A4B /* Feed API */,
 				FA3FDB8224645D2E00374611 /* Feed Feature */,
 				FA3FDB67246456F500374611 /* EssentialFeed.h */,
+				DA0A38D82473AB3900691A4B /* Feed API */,
 				FA3FDB68246456F500374611 /* Info.plist */,
 			);
 			path = EssentialFeed;
