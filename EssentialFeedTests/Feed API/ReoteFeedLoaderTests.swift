@@ -106,6 +106,43 @@ class ReoteFeedLoaderTests: XCTestCase {
     XCTAssertTrue(capturedResult.isEmpty)
   }
   
+  
+  
+  func test_patternMatching() {
+    let leftBool = true
+    let rightBool = false
+    switch (leftBool,rightBool) {
+    case (true,true):
+      print("matched both true")
+    case (false,false):
+      print("matched both true")
+    case (_,_):
+      print("matched both true")
+    }
+    
+    switch (leftBool, rightBool) {
+      case (true, true):
+        print("matched both true")
+
+      case (_, _):
+        print("matched any case that is not both true with wildcard _")
+    }
+    
+//    switch (leftResult, rightResult) {
+//      case (.success(let leftValue), .success(let rightValue)):
+//        print("matched both success with leftValue: \(leftValue) and rightValue: \(rightValue)")
+//
+//      case (.success(let leftValue), .failure(let rightError)):
+//        print("matched left success with value: \(leftValue) and right failure with error: \(rightError)")
+//
+//      case (.failure(let leftError), .success(let rightValue)):
+//        print("matched left failure with error: \(leftError) and right success with error: \(rightValue)")
+//
+//      case (.failure(let leftError), .failure(let rightError)):
+//        print("matched both failure with leftError: \(leftError) and rightError: \(rightError)")
+//    }
+  }
+  
 private func makeItemsJSON(_ items:[[String:Any]]) -> Data {
   let json = ["items":items]
   return try! JSONSerialization.data(withJSONObject: json)
