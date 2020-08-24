@@ -40,7 +40,7 @@ class ReoteFeedLoaderTests: XCTestCase {
   
   func test_load_deliversErrorsonClientError() {
     let (client,sut) = makeSUT()
-    expect(sut, toCompleteWith: LoadFeeedResult.failure(.connectivity), when: {
+    expect(sut, toCompleteWith: failure(.connectivity), when: {
       let clientError = NSError(domain: "Test", code: 0)
       client.complete(with: RemoteFeedLoader.Error.connectivity)
     })
@@ -54,7 +54,7 @@ class ReoteFeedLoaderTests: XCTestCase {
     //Act:- When we tell the sut to load and we complete the client's HTTP Request with an error
     let samples = [199,201,300,400,500]
     samples.enumerated().forEach { index, code in
-      expect(sut, toCompleteWith: .failure(.invalidData)) {
+      expect(sut, toCompleteWith: failure(.invalidData)) {
         let json = makeItemsJSON([])
         client.complete(withStatusCode: code, data: json,at: index)
       }
@@ -63,7 +63,7 @@ class ReoteFeedLoaderTests: XCTestCase {
   
   func test_load_deliversErrorOn200responseWithInvalidJSON(){
        let (client,sut) = makeSUT()
-    expect(sut, toCompleteWith: .failure(.invalidData)) {
+    expect(sut, toCompleteWith: failure(.invalidData)) {
        let invalidJSON = Data(bytes: "invalid json".utf8)
               client.complete(withStatusCode: 200, data: invalidJSON)
     }
@@ -158,6 +158,13 @@ private func expect(_ sut:RemoteFeedLoader,toCompleteWith result:RemoteFeedLoade
        action()
   XCTAssertEqual(capturedErrors,[result],file: file,line: line)
 }
+  
+  //MARK: Helpers
+ 
+  private func failure(_ error: RemoteFeedLoader.Error) -> RemoteFeedLoader.Result {
+     // By using factory methods in our test scope , we also prevent our test methods from breaking in the future if we ever decide to change the production type again!
+    return .failure(error)
+  }
 
   private func makeSUT(url: URL =  URL(string: "http://a-given-url.com")!,file: StaticString = #file, line: UInt = #line) -> (HTTPClientSpy, RemoteFeedLoader) {
       let client = HTTPClientSpy()
