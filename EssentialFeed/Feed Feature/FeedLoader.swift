@@ -23,7 +23,7 @@ to accomodat future needs(that will never happen) can unnecessarily damage/compl
  3.Good design is rarely achieved in the first iteration.Software Design is an evolutionary process.Folllow good design principles and practices ,so you can easily//safely/quickly change your mind later.
  */
 
-protocol FeedLoader {
+ public protocol FeedLoader {
   associatedtype Error: Swift.Error
   
   func load(completion: @escaping (LoadFeeedResult) -> Void)
