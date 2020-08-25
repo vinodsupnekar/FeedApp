@@ -13,6 +13,7 @@ public enum LoadFeeedResult {
     case failure(Error)
 }
 
+
 // Using "Error" type here need to consider:-
 /*1.Staring from abstractions bear risk. For Example, over abstracting
 to accomodat future needs(that will never happen) can unnecessarily damage/complicate the current design.
