@@ -143,21 +143,30 @@ class ReoteFeedLoaderTests: XCTestCase {
 //    }
   }
   
-private func makeItemsJSON(_ items:[[String:Any]]) -> Data {
-  let json = ["items":items]
-  return try! JSONSerialization.data(withJSONObject: json)
-}
+  private func makeItemsJSON(_ items:[[String:Any]]) -> Data {
+    let json = ["items":items]
+    return try! JSONSerialization.data(withJSONObject: json)
+  }
 
-private func expect(_ sut:RemoteFeedLoader,toCompleteWith result:RemoteFeedLoader.Result,file: StaticString = #file,line: UInt = #line,when action:() -> Void) {
+  private func expect(_ sut:RemoteFeedLoader,toCompleteWith expectedResult:RemoteFeedLoader.Result,file: StaticString = #file,line: UInt = #line,when action:() -> Void) {
     
-    var capturedErrors = [RemoteFeedLoader.Result]()
-  
-    sut.load {
-           capturedErrors.append($0)
-       }
-       action()
-  XCTAssertEqual(capturedErrors,[result],file: file,line: line)
-}
+    let exp = expectation(description: "wait for load completion")
+    
+    sut.load { receivedResult in
+      switch (receivedResult,expectedResult) {
+      case let (.success(reciverItems), .success(expectedItems)):
+        XCTAssertEqual(reciverItems, expectedItems,file:file,line:line)
+      case let (.failure(recieverError), .failure(expectedError)):
+        XCTAssertEqual(recieverError,expectedError,file:file,line:line)
+        
+      default: XCTFail("Expected result \(expectedResult) got \(receivedResult) insted",file: file,line: line)
+      }
+      exp.fulfill()
+    }
+      action()
+    
+    wait(for: [exp], timeout: 1.0)
+  }
   
   //MARK: Helpers
  
