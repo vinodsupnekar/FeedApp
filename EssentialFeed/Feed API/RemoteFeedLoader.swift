@@ -17,14 +17,14 @@ public final class RemoteFeedLoader: FeedLoader {
     case invalidData
   }
   
-  public typealias Result = LoadFeeedResult<Error>
+  public typealias Result = LoadFeeedResult
   
   public init(url: URL,client: HTTPClient) {
     self.client = client
     self.url = url
   }
   
-  public func load(completion:  @escaping (LoadFeeedResult<Error>) -> Void) {
+  public func load(completion:  @escaping (LoadFeeedResult) -> Void) {
     client.get(from: url){ [weak self] response in
       guard self != nil else { return }
       switch response{
