@@ -164,7 +164,7 @@ class ReoteFeedLoaderTests: XCTestCase {
       dataTask.resume()
       
       // Wait until the expectation is fulfilled, with a timeout of 10 seconds.
-      wait(for: [expectation], timeout: 1.0)
+      wait(for: [expectation], timeout: 10.0)
   }
   
   private func makeItemsJSON(_ items:[[String:Any]]) -> Data {
