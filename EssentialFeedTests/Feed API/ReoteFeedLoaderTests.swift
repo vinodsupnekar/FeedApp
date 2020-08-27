@@ -105,9 +105,7 @@ class ReoteFeedLoaderTests: XCTestCase {
     client.complete(withStatusCode: 200, data: makeItemsJSON([]))
     XCTAssertTrue(capturedResult.isEmpty)
   }
-  
-  
-  
+    
   func test_patternMatching() {
     let leftBool = true
     let rightBool = false
@@ -198,6 +196,7 @@ class ReoteFeedLoaderTests: XCTestCase {
   
   //MARK: Helpers
  
+    
   private func failure(_ error: RemoteFeedLoader.Error) -> RemoteFeedLoader.Result {
      // By using factory methods in our test scope , we also prevent our test methods from breaking in the future if we ever decide to change the production type again!
     return .failure(error)
