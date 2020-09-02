@@ -46,31 +46,33 @@ class URLSessionHttpClientTests : XCTestCase {
       XCTAssertEqual(request.httpMethod, "GET")
       exp.fulfill()
     }
-    URLSessionHttpClient().get(from: url) {_ in }
+    makeSUT().get(from: url) {_ in }
     wait(for: [exp], timeout: 1.0)
   }
   
     func test_getFromURL_failsOnRequestError() {
         //Set-up
-        let url = URL(string:"www.any-url.com")!
-        let error = NSError(domain: "my error", code: 1)
-//        let session = HTTPSessionSpy()
+      let url = URL(string:"www.any-url.com")!
+      let error = NSError(domain: "my error", code: 1)
+      //        let session = HTTPSessionSpy()
       URLProtocolStub.stub(data: nil, response: nil,error: error)
-        
-        let exp = expectation(description: "wait for completion")
-        let urlSessionClient = URLSessionHttpClient()
-        urlSessionClient.get(from: url) { result in
-            switch result {
-            case let .failure(recievedError as NSError):
-                XCTAssertEqual(recievedError, error)
-            default:
-                XCTFail("Expected failure with error \(error),got result \(result) instead")
-            }
-            exp.fulfill()
-        }
-        wait(for: [exp], timeout: 1.0)
+      let exp = expectation(description: "wait for completion")
+      makeSUT().get(from: url) { result in
+          switch result {
+          case let .failure(recievedError as NSError):
+              XCTAssertEqual(recievedError, error)
+          default:
+              XCTFail("Expected failure with error \(error),got result \(result) instead")
+          }
+          exp.fulfill()
+      }
+      wait(for: [exp], timeout: 1.0)
  }
 
+  private func makeSUT() -> URLSessionHttpClient {
+    return URLSessionHttpClient()
+  }
+  
   class URLProtocolStub : URLProtocol {
     private static var stub: Stub?
     private static var requqestObserver: ((URLRequest) -> Void)?
