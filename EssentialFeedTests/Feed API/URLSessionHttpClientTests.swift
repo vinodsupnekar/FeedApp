@@ -70,9 +70,12 @@ class URLSessionHttpClientTests : XCTestCase {
       wait(for: [exp], timeout: 1.0)
  }
 
-  private func makeSUT() -> URLSessionHttpClient {
-    return URLSessionHttpClient()
+  private func makeSUT(file: StaticString = #file, line: UInt = #line) -> URLSessionHttpClient {
+    let sut = URLSessionHttpClient()
+    trackMemoryLeaks(sut,file:file,line: line)
+    return sut
   }
+  
   
   class URLProtocolStub : URLProtocol {
     private static var stub: Stub?
