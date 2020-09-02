@@ -52,6 +52,7 @@ class URLSessionHttpClientTests : XCTestCase {
   
     func test_getFromURL_failsOnRequestError() {
         //Set-up
+      
       let url = URL(string:"www.any-url.com")!
       let error = NSError(domain: "my error", code: 1)
       //        let session = HTTPSessionSpy()
