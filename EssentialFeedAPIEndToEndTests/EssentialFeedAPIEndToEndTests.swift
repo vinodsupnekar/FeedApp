@@ -39,6 +39,9 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
     let testserverURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
     let loader = RemoteFeedLoader(url: testserverURL, client: client)
     
+    trackMemoryLeaks(loader)
+    trackMemoryLeaks(client)
+    
     let exp = expectation(description: "wait for load completion")
     
     var receivedResult : LoadFeeedResult?
