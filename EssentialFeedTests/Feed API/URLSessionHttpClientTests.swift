@@ -30,11 +30,9 @@ class URLSessionHttpClientTests : XCTestCase {
       XCTAssertEqual(request.httpMethod, "GET")
       exp1.fulfill()
     }
-    
-    let exp2 = expectation(description: "wait for requests")
-
-    makeSUT().get(from: url) {_ in exp2.fulfill()}
-    wait(for: [exp1,exp2], timeout: 1.0)
+  
+    makeSUT().get(from: url) {_ in }
+    wait(for: [exp1], timeout: 1.0)
   }
   
     func test_getFromURL_failsOnRequestError() {
@@ -193,7 +191,6 @@ class URLSessionHttpClientTests : XCTestCase {
     }    
     
     override class func canInit(with request: URLRequest) -> Bool {
-        requqestObserver?(request)
         return true
     }
 
@@ -202,6 +199,11 @@ class URLSessionHttpClientTests : XCTestCase {
     }
     
     override func startLoading() {
+      if let requestObserver = URLProtocolStub.requqestObserver {
+        client?.urlProtocolDidFinishLoading(self)
+        return  requestObserver(request) // requqestObserver(request)
+      }
+
         if let data = URLProtocolStub.stub?.data {
           client?.urlProtocol(self, didLoad: data)
         }
