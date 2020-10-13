@@ -35,7 +35,7 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
   }
   
   private func getFeedResult(file:StaticString = #file,line:UInt = #line) -> LoadFeeedResult? {
-    let client = URLSessionHttpClient(session: URLSession(configuration: .ephemeral))
+    let client = URLSessionHttpClient()
     let testserverURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
     let loader = RemoteFeedLoader(url: testserverURL, client: client)
     
@@ -49,7 +49,7 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
       receivedResult = result
       exp.fulfill()
     }
-    wait(for: [exp], timeout: 10.0)
+    wait(for: [exp], timeout: 600.0)
     return receivedResult
   }
   
