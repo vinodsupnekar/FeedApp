@@ -18,8 +18,9 @@ class LocalFeedLoader {
         self.currentDate = currentDate
     }
     
-    func save(_ items:[FeedItem]) {
+    func save(_ items:[FeedItem], completion: @escaping (Error?) -> Void) {
         store.deleteCacheFeed { [unowned self] error in
+            completion(error)
             if error == nil {
                 self.store.insert(items, timestamp: self.currentDate())
             }
@@ -68,7 +69,7 @@ class CacheFeedUseCaseTests : XCTestCase {
             let items = [uniqueItem(),uniqueItem()]
             let (sut,store) = makeSUT()
         
-        sut.save(items)
+        sut.save(items) { _ in }
         
         XCTAssertEqual(store.recievedMessages, [.deleteCachedFeed])
     }
@@ -78,7 +79,7 @@ class CacheFeedUseCaseTests : XCTestCase {
             let (sut,store) = makeSUT()
             let deletionError = anyNSError()
         
-        sut.save(items)
+        sut.save(items) { _ in }
         store.completeDeletion(with:deletionError)
         XCTAssertEqual(store.recievedMessages, [.deleteCachedFeed])
     }
@@ -88,10 +89,28 @@ class CacheFeedUseCaseTests : XCTestCase {
         let items = [uniqueItem(),uniqueItem()]
         let (sut,store) = makeSUT(currentDate: { timestamp })
         
-        sut.save(items)
+        sut.save(items) { _ in }
+        
         store.completeDeletionSuccessfully()
         XCTAssertEqual(store.recievedMessages,[.deleteCachedFeed,.insert(items, timestamp)])
 
+    }
+    
+    func test_save_failsOnDeletionError() {
+            let items = [uniqueItem(),uniqueItem()]
+            let (sut,store) = makeSUT()
+            let deletionError = anyNSError()
+        
+        let exp = expectation(description: "wait for save completion")
+        var recivedError: Error?
+        sut.save(items) { error in
+            recivedError = error
+            exp.fulfill()
+        }
+        
+        store.completeDeletion(with:deletionError)
+        wait(for: [exp], timeout: 1.0)
+        XCTAssertEqual(recivedError as NSError?, deletionError)
     }
     
     
