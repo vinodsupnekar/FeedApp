@@ -59,11 +59,11 @@ Given the customer does not have connectivity \
 - URL \
 \
 ### Primary course (happy path): \
-1. Excecute "Load Feed Items " command with above data.\
+1. Excecute "Load Image Feed Items " command with above data.\
 2. System downloads data from the URL.\
 3. System validates downloaded data.\
-4. System creates feed items from valid data.\
-5. System delivers feed items.\
+4. System creates image feed items from valid data.\
+5. System delivers image feed items.\
 \
 ### Invalid data - error course (sad path)\
 1. System delivers invalid data error.\
@@ -76,31 +76,31 @@ Given the customer does not have connectivity \
 \
 ### Primary Course \
 \
-1. Excecute "Load Feed Items" command with above data.\
+1. Excecute "Load Image Feed Items" command with above data.\
 2. System fetches feed data from cache.\
 3. System validates cache is less than days old.\
-4. System creates feed items from cached data.\
-5. System delivers feed items.\
+4. System creates image feed items from cached data.\
+5. System delivers image feed items.\
 \
 ### Error course (sad path)\
 1. System delivers error.\
 \
 ### Expired cache course (sad path)\
-1. System delivers no feed items.\
+1. System delivers no feed images.\
 \
 ### Empty cache course (sad path)\
-1. System delivers no feed items.\
+1. System delivers no feed images.\
 \
 \
-### Save Feed Items Use Case\
+### Cache Feed Items Use Case\
 \
 ### Data\
-- Feed Items\
+-  Image Feed\
 \
 ### Primary course (happy path)\
-1. Excecute "Save Feed Items" command with above data.\
+1. Excecute "Save Image Feed" command with above data.\
 2. System delete old  cache with new data.\
-3. System encodes feed items.\
+3. System encodes image feed .\
 4. System timestamps the new cache.\
 5. System saves new cache  data.\
 6. System delivers success message.\
