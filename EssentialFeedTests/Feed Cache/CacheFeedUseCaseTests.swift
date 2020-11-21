@@ -9,46 +9,6 @@
 import XCTest
 import EssentialFeed
 
-class FeedStoreSpy: FeedStore {
-    typealias DeletionCompletion = (Error?) -> Void
-    typealias InsertionCompletion = (Error?) -> Void
-
-    enum RecievedMessage : Equatable{
-        case deleteCachedFeed
-        case insert([LocalFeedImage],Date)
-    }
-    private(set) var recievedMessages = [RecievedMessage]()
-    
-    private var deletionCompletions = [DeletionCompletion]()
-    private var insertionCompletions = [DeletionCompletion]()
-
-    func deleteCacheFeed(completion : @escaping DeletionCompletion) {
-        deletionCompletions.append(completion)
-        recievedMessages.append(.deleteCachedFeed)
-    }
-    
-    func completeDeletion(with error : Error, at index: Int = 0) {
-        deletionCompletions[index](error)
-    }
-    
-    func completeDeletionSuccessfully(at index:Int = 0) {
-        deletionCompletions[index](nil)
-    }
-    
-    func completeInsertionSuccessfully(at index:Int = 0) {
-        insertionCompletions[index](nil)
-    }
-    
-    func insert(_ feed: [LocalFeedImage],timestamp: Date,completion : @escaping InsertionCompletion) {
-        insertionCompletions.append(completion)
-        recievedMessages.append(.insert(feed, timestamp))
-    }
-    
-    func completeInsertion(with error : Error, at index: Int = 0) {
-        insertionCompletions[index](error)
-    }
-}
-
 class CacheFeedUseCaseTests : XCTestCase {
     
     func test_init_doesNotMessageStoreUponCreation() {
@@ -178,46 +138,6 @@ class CacheFeedUseCaseTests : XCTestCase {
         let models = [uniqueImage(),uniqueImage()]
         let localItems = models.map { LocalFeedImage(id: $0.id, description: $0.description, location: $0.location, imageURL: $0.url) }
         return (models,localItems)
-    }
-    
-    private class FeedStoreSpy: FeedStore {
-        typealias DeletionCompletion = (Error?) -> Void
-        typealias InsertionCompletion = (Error?) -> Void
-
-        enum RecievedMessage : Equatable{
-            case deleteCachedFeed
-            case insert([LocalFeedImage],Date)
-        }
-        private(set) var recievedMessages = [RecievedMessage]()
-        
-        private var deletionCompletions = [DeletionCompletion]()
-        private var insertionCompletions = [DeletionCompletion]()
-
-        func deleteCacheFeed(completion : @escaping DeletionCompletion) {
-            deletionCompletions.append(completion)
-            recievedMessages.append(.deleteCachedFeed)
-        }
-        
-        func completeDeletion(with error : Error, at index: Int = 0) {
-            deletionCompletions[index](error)
-        }
-        
-        func completeDeletionSuccessfully(at index:Int = 0) {
-            deletionCompletions[index](nil)
-        }
-        
-        func completeInsertionSuccessfully(at index:Int = 0) {
-            insertionCompletions[index](nil)
-        }
-        
-        func insert(_ feed: [LocalFeedImage],timestamp: Date,completion : @escaping InsertionCompletion) {
-            insertionCompletions.append(completion)
-            recievedMessages.append(.insert(feed, timestamp))
-        }
-        
-        func completeInsertion(with error : Error, at index: Int = 0) {
-            insertionCompletions[index](error)
-        }
     }
     
     private func anyURL() -> URL {
