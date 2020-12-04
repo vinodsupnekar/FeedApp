@@ -77,15 +77,17 @@ Given the customer does not have connectivity \
 ### Primary Course \
 \
 1. Excecute "Load Image Feed Items" command with above data.\
-2. System fetches feed data from cache.\
+2. System retrieves fetches feed data from cache.\
 3. System validates cache is less than days old.\
 4. System creates image feed items from cached data.\
 5. System delivers image feed items.\
 \
-### Error course (sad path)\
-1. System delivers error.\
+### Retrieval Error course (sad path)\
+1. System deletes cache\
+2. System delivers error.\
 \
 ### Expired cache course (sad path)\
+1. System deletes cache\
 1. System delivers no feed images.\
 \
 ### Empty cache course (sad path)\
