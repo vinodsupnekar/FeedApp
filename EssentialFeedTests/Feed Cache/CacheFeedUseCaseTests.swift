@@ -103,7 +103,39 @@ class CacheFeedUseCaseTests : XCTestCase {
         XCTAssertTrue(receivedResult.isEmpty)
     }
     
-    
+    func test_JSON_FormatDemo() {
+//        struct GroceryProduct: Codable {
+//            var name: String
+//            var points: Int
+//            var description: String?
+//        }
+//
+//        let pear = GroceryProduct(name: "Pear", points: 250, description: "A ripe pear.")
+//
+//        let encoder = JSONEncoder()
+//        encoder.outputFormatting = .prettyPrinted
+//
+//        let data = try! encoder.encode(pear)
+//        print(String(data: data, encoding: .utf8)!)
+//
+        struct GroceryProduct: Codable {
+            var name: String
+            var points: Int
+            var description: String?
+        }
+
+        let json = """
+            {"name": "Durian","points": 600,
+            "description": "A fruit with a distinctive scent."
+        }
+        """.data(using: .utf8)!
+
+        let decoder = JSONDecoder()
+        let product = try! decoder.decode(GroceryProduct.self, from: json)
+
+        print(product.name)
+
+    }
     
     // MARK: - Helpers
     
@@ -129,6 +161,5 @@ class CacheFeedUseCaseTests : XCTestCase {
         wait(for: [exp], timeout: 1.0)
         XCTAssertEqual(recivedError as NSError?, expectedError,file: file, line:line)
     }
-    
     
 }
