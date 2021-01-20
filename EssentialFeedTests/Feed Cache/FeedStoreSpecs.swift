@@ -6,7 +6,7 @@
 //  Copyright © 2021 VinodS. All rights reserved.
 //
 
-import Foundation
+import XCTest
 
 protocol FeedStoreSpecs {
     func test_retrieve_deliversEmptyOnEmptyCache()
