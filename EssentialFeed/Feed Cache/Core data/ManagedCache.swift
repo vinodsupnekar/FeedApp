@@ -29,6 +29,6 @@ extension ManagedCache {
     }
     
     internal var localFeed: [LocalFeedImage] {
-        return feed.compactMap { ($0 as? ManagedFeedImage)?.local }
+        return feed.compactMap { ($0 as? ManagedFeedImage)?.localFeed }
     }
 }

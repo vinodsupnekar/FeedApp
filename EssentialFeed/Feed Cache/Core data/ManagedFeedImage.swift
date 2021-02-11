@@ -31,7 +31,7 @@ extension ManagedFeedImage {
         })
     }
     
-    internal var local: LocalFeedImage {
+    internal var localFeed: LocalFeedImage {
         return LocalFeedImage(id: id, description: description, location: location, imageURL: url)
     }
     
