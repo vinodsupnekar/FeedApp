@@ -242,6 +242,23 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		FA6A3A0F25D53ED30030453A /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				FA68D82925D40264009590DB /* Core data */,
+				FA6A3A1025D53EF70030453A /* Codable */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		FA6A3A1025D53EF70030453A /* Codable */ = {
+			isa = PBXGroup;
+			children = (
+				FA6A617C259A158100AF7F64 /* CodableFeedStore.swift */,
+			);
+			path = Codable;
+			sourceTree = "<group>";
+		};
 		FAC734AF254071F100F7F929 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
@@ -259,12 +276,11 @@
 		FACD43CA254EE03D001A9D07 /* Feed Cache */ = {
 			isa = PBXGroup;
 			children = (
-				FA68D82925D40264009590DB /* Core data */,
+				FA6A3A0F25D53ED30030453A /* Infrastructure */,
 				FACD43CB254EE063001A9D07 /* LocalFeedLoader.swift */,
 				FACD43D3254EE19D001A9D07 /* FeedStore.swift */,
 				FA65DF6C2550325D005295C0 /* LocalFeedImage.swift */,
 				FA25DCB02580CDE300AC3D9E /* FeedCachePolicy.swift */,
-				FA6A617C259A158100AF7F64 /* CodableFeedStore.swift */,
 			);
 			path = "Feed Cache";
 			sourceTree = "<group>";
