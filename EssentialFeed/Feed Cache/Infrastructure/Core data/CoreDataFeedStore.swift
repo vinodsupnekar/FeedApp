@@ -13,8 +13,7 @@ public final class CoreDataFeedStore: FeedStore {
     private let container: NSPersistentContainer
     private let context: NSManagedObjectContext
     
-    
-    init(storeURL: URL, bundle: Bundle = .main) throws {
+    public init(storeURL: URL, bundle: Bundle = .main) throws {
         NSPersistentContainer.load()
         container = try NSPersistentContainer.load(modelName: "FeedStore", url: storeURL, in: bundle)
         context = container.newBackgroundContext()
