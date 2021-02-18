@@ -21,10 +21,12 @@ class CoreDataFeedStoreTests: XCTestCase , FeedStoreSpecs {
         let sut = makeSUT()
     
         assertThatRetrievelHasNoSideEffectsOnEmptyCache(on: sut)
-        }
+    }
     
     func test_retrieve_deliversFoundValuesOnNonEmptyCache() {
+        let sut = makeSUT()
         
+        assertThatRetrievelDeliversFoundValuesOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
@@ -68,15 +70,15 @@ class CoreDataFeedStoreTests: XCTestCase , FeedStoreSpecs {
         // typealias AnyClass = AnyObject.Type
         // Bundle(for: <#T##AnyClass#>)
         
-        let storeBundle = Bundle(for: CoreDataFeedStore.self )// .self)
-        let storeURL = URL( fileURLWithPath: "/dev/null")
+//        let storeBundle = Bundle(for: CoreDataFeedStore.self )// .self)
+////        let storeURL = URL( fileURLWithPath: "/dev/null")
+//        let sut = try! CoreDataFeedStore(bundle: storeBundle)
+//        trackMemoryLeaks(sut)
+//        return sut
+        let storeBundle = Bundle(for: CoreDataFeedStore.self)
+        let storeURL = URL(fileURLWithPath: "/dev/null")
         let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
         trackMemoryLeaks(sut)
         return sut
-        //        let storeBundle = Bundle(for: CoreDataFeedStore.self)
-//        let storeURL = URL(fileURLWithPath: "/dev/null")
-//        let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
-//        trackMemoryLeaks(sut)
-//        return sut
     }
 }
