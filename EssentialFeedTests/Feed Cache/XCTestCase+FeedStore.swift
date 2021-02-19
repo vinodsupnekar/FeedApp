@@ -67,6 +67,16 @@ extension FeedStoreSpecs where Self: XCTestCase {
         XCTAssertNil(insertionError2, "Expected cache insertion to fail with an error")
     }
     
+    func assertThatInsertOverridesPreviouslyInsertedCache(on sut:FeedStore,file: StaticString = #file, line: UInt = #line) {
+        let feed = uniqueImageFeed().local
+        let timestamp = Date()
+        insert((feed,timestamp), to: sut)
+
+        let insertionError2 = insert((feed,timestamp), to: sut)
+        
+        XCTAssertNil(insertionError2, "Expected cache insertion to fail with an error")
+    }
+    
     func assertThatInsertDeliversErrorOnInsertionError(on sut:FeedStore,file: StaticString = #file, line: UInt = #line) {
         let feed = uniqueImageFeed().local
         let timestamp = Date()
