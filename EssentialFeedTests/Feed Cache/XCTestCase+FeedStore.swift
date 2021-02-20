@@ -72,9 +72,10 @@ extension FeedStoreSpecs where Self: XCTestCase {
         let timestamp = Date()
         insert((feed,timestamp), to: sut)
 
-        let insertionError2 = insert((feed,timestamp), to: sut)
+        _ = insert((feed,timestamp), to: sut)
         
-        XCTAssertNil(insertionError2, "Expected cache insertion to fail with an error")
+        expect(sut, toRetrieve: .found(feed: feed, timestamp: timestamp))
+//        XCTAssertNil(insertionError2, "Expected cache insertion to fail with an error")
     }
     
     func assertThatInsertDeliversErrorOnInsertionError(on sut:FeedStore,file: StaticString = #file, line: UInt = #line) {
