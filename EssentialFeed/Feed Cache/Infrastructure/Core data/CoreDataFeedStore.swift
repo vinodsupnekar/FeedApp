@@ -24,7 +24,7 @@ public final class CoreDataFeedStore: FeedStore {
         context.perform {
             do {
                 
-                if let cache = try? ManagedCache.find(in: context) {
+                if let cache = try ManagedCache.find(in: context) {
                     completion(.found(feed: cache.localFeed, timestamp: cache.timestamp))
                 }
                 else {
@@ -53,7 +53,23 @@ public final class CoreDataFeedStore: FeedStore {
     }
     
     public func deleteCacheFeed(completion: @escaping DeletionCompletion) {
-        completion(nil)
+
+        let context = self.context
+        context.perform {
+            do {
+                try ManagedCache.find(in: context).map { (obj) -> Void in
+                    context.delete(obj)
+                }.map({
+                    try context.save()
+                })
+                completion(nil)
+//                try ManagedCache.find(in: context).map(context.delete(<#T##object: NSManagedObject##NSManagedObject#>)).map(context.save)
+//                    completion(nil)
+            }
+            catch {
+                    completion(error)
+            }
+        }
     }
     
     private func perform(_ action: @escaping (NSManagedObjectContext) -> Void) {
