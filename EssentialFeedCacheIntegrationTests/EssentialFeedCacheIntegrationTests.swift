@@ -46,7 +46,6 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
             XCTAssertNil(saveError, "Expected to save feed successfully")
             saveExp.fulfill()
         }
-        
         let loadExp = expectation(description: "wait for load Completion")
             
         sutToPerformLoad.load { result in
