@@ -11,6 +11,14 @@ import EssentialFeed
 
 class EssentialFeedCacheIntegrationTests: XCTestCase {
 
+    override func setUp() {
+        setUpEmptyStoreState()
+    }
+    
+    override func tearDown() {
+        undoStoreSideEffects()
+    }
+    
     func test_load_deliversNoItemsOnEmptyCache() {
         let sut = makeSUT()
         
@@ -27,6 +35,33 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         }
         wait(for: [exp], timeout: 1.0)
     }
+    
+    func test_load_deliversItemsSavedOnASeparateInstance() {
+        let sutToPerformSave = makeSUT()
+        let sutToPerformLoad = makeSUT()
+        let feed = uniqueImageFeed().models
+        
+        let saveExp = expectation(description: "wait for save completion")
+        sutToPerformSave.save(feed) { saveError in
+            XCTAssertNil(saveError, "Expected to save feed successfully")
+            saveExp.fulfill()
+        }
+        
+        let loadExp = expectation(description: "wait for load Completion")
+            
+        sutToPerformLoad.load { result in
+            switch result {
+                case let .success(imageFeed) :
+                    XCTAssertEqual(imageFeed, feed)
+                case let .failure(error) :
+                    XCTFail("Expected successful feed result, got \(error) instead")
+            }
+            loadExp.fulfill()
+        }
+        
+        wait(for: [saveExp,loadExp], timeout: 1.0)
+
+    }
         
     // MARK: Helpers
     
@@ -40,6 +75,18 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         return sut
      }
     
+    func setUpEmptyStoreState() {
+        deleteStoreArtifacts()
+    }
+    
+    func undoStoreSideEffects() {
+        deleteStoreArtifacts()
+    }
+    
+    func deleteStoreArtifacts() {
+        try? FileManager.default.removeItem(at: testSpecificStoreURL())
+    }
+    
     private func testSpecificStoreURL() -> URL {
         cachesDirectory().appendingPathComponent("\(type(of: self)).store")
     }
@@ -47,9 +94,5 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
     private func cachesDirectory() -> URL {
         return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
     }
-    
-    
 
-    
-    
 }
