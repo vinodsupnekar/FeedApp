@@ -42,21 +42,23 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         let feed = uniqueImageFeed().models
         
         let saveExp = expectation(description: "wait for save completion")
+        let loadExp = expectation(description: "wait for load Completion")
+
         sutToPerformSave.save(feed) { saveError in
             XCTAssertNil(saveError, "Expected to save feed successfully")
             saveExp.fulfill()
-        }
-        let loadExp = expectation(description: "wait for load Completion")
             
-        sutToPerformLoad.load { result in
-            switch result {
-                case let .success(imageFeed) :
-                    XCTAssertEqual(imageFeed, feed)
-                case let .failure(error) :
-                    XCTFail("Expected successful feed result, got \(error) instead")
+            sutToPerformLoad.load { result in
+                switch result {
+                    case let .success(imageFeed) :
+                        XCTAssertEqual(imageFeed, feed)
+                    case let .failure(error) :
+                        XCTFail("Expected successful feed result, got \(error) instead")
+                }
+                loadExp.fulfill()
             }
-            loadExp.fulfill()
         }
+        
         
         wait(for: [saveExp,loadExp], timeout: 1.0)
 
@@ -72,7 +74,7 @@ class EssentialFeedCacheIntegrationTests: XCTestCase {
         trackMemoryLeaks(sut)
         trackMemoryLeaks(store)
         return sut
-     }
+    }
     
     func setUpEmptyStoreState() {
         deleteStoreArtifacts()

@@ -266,6 +266,7 @@
 		FA6911CC256924B00064B60D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				FA6911C725691FCC0064B60D /* LoadFeedFromCacheUseCaseTests.swift */,
 				FA6911CD256924CE0064B60D /* FeedStoreSpy.swift */,
 				FAA1ABE6257E6BBC00054188 /* FeedCacheTestHelpers.swift */,
 			);
@@ -303,7 +304,6 @@
 			children = (
 				FA6911CC256924B00064B60D /* Helpers */,
 				FAC734B02540724300F7F929 /* CacheFeedUseCaseTests.swift */,
-				FA6911C725691FCC0064B60D /* LoadFeedFromCacheUseCaseTests.swift */,
 				FAA1ABE1257E3D1000054188 /* ValidateFeedCacheUseCaseTests.swift */,
 				FA15BBA22587AC2200AE1839 /* CodableFeedStoreTests.swift */,
 				FA674A3525B835890087BBD5 /* FeedStoreSpecs.swift */,
