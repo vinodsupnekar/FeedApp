@@ -8,7 +8,6 @@
 
 import Foundation
 
-public typealias LoadFeeedResult = Result<[FeedImage],Error>
 
 // Using "Error" type here need to consider:-
 /*1.Staring from abstractions bear risk. For Example, over abstracting
@@ -22,6 +21,7 @@ to accomodat future needs(that will never happen) can unnecessarily damage/compl
 
  public protocol FeedLoader {
 //  associatedtype Error: Swift.Error
-  
-  func load(completion: @escaping (LoadFeeedResult) -> Void)
+    typealias Result = Swift.Result<[FeedImage],Error>
+
+    func load(completion: @escaping (Result) -> Void)
 }

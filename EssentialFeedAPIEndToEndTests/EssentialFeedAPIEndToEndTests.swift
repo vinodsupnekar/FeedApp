@@ -34,7 +34,7 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
     }
   }
   
-  private func getFeedResult(file:StaticString = #file,line:UInt = #line) -> LoadFeeedResult? {
+    private func getFeedResult(file:StaticString = #file,line:UInt = #line) -> FeedLoader.Result? {
     let client = URLSessionHttpClient()
     let testserverURL = URL(string: "https://essentialdeveloper.com/feed-case-study/test-api/feed")!
     let loader = RemoteFeedLoader(url: testserverURL, client: client)
@@ -44,7 +44,7 @@ class EssentialFeedAPIEndToEndTests: XCTestCase {
     
     let exp = expectation(description: "wait for load completion")
     
-    var receivedResult : LoadFeeedResult?
+    var receivedResult : FeedLoader.Result?
     loader.load { result in
       receivedResult = result
       exp.fulfill()
