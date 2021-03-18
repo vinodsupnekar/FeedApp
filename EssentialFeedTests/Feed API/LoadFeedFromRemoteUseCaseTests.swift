@@ -230,9 +230,9 @@ private func makeItem(id: UUID, description: String? = nil,location: String? = n
     return messeges.map { $0.url }
   }
 
-  private var messeges = [(url: URL, completion: (HTTPClientResult) -> Void)]()
+    private var messeges = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
   
-  func get(from url: URL,completion: @escaping ((HTTPClientResult) -> Void)) {
+  func get(from url: URL,completion: @escaping ((HTTPClient.Result) -> Void)) {
       messeges.append((url,completion))
   }
   
@@ -242,7 +242,7 @@ private func makeItem(id: UUID, description: String? = nil,location: String? = n
   
   func complete(withStatusCode code:Int,data:Data, at index:Int = 0) {
     let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
-    messeges[index].completion(.success(data,response))
+    messeges[index].completion(.success((data,response)))
   }
   
 
