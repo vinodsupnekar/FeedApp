@@ -218,9 +218,8 @@ private func makeItem(id: UUID, description: String? = nil,location: String? = n
   let json = ["id":id.uuidString,
               "description":description,
               "location":location,
-              "image":imageURL.absoluteString].reduce(into: [String:Any]()) { (acc,e) in
-                if e.value != nil { acc[e.key] = e.value }
-                }
+              "image":imageURL.absoluteString].compactMapValues({$0})
+    
   return (item,json)
 }
 
