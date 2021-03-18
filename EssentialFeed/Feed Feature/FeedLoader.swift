@@ -8,11 +8,7 @@
 
 import Foundation
 
-public enum LoadFeeedResult {
-    case success([FeedImage])
-    case failure(Error)
-}
-
+public typealias LoadFeeedResult = Result<[FeedImage],Error>
 
 // Using "Error" type here need to consider:-
 /*1.Staring from abstractions bear risk. For Example, over abstracting
