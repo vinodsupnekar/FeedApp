@@ -68,7 +68,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec{
         let latestInsertionError = insert((latestFeed,latestTimestamp), to: sut)
         
         XCTAssertNil(latestInsertionError, "Expected to override cache successfully")
-        expect(sut, toRetrieve: .found(feed: latestFeed, timestamp: latestTimestamp))
+        expect(sut, toRetrieve: .success(.found(feed: latestFeed, timestamp: latestTimestamp)))
     }
     
     func test_insert_deliversNoErrorOnEmptyCache() {
