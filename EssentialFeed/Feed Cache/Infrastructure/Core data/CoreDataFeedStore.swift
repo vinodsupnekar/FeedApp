@@ -36,8 +36,6 @@ public final class CoreDataFeedStore: FeedStore {
         catch {
             throw StoreError.failedToLoadPersistentContainer(error)
         }
-        
-        
     }
     
     public func retrieve(completion: @escaping RetrievalCompletion) {
@@ -45,10 +43,10 @@ public final class CoreDataFeedStore: FeedStore {
             do {
                 
                 if let cache = try ManagedCache.find(in: context) {
-                    completion(.success(.found(feed: cache.localFeed, timestamp: cache.timestamp)))
+                    completion(.success( .some(CachedFeed(feed: cache.localFeed, timestamp: cache.timestamp))))
                 }
                 else {
-                    completion(.success(.empty))
+                    completion(.success(.none))
                 }
                 
             } catch {
