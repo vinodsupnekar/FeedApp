@@ -26,7 +26,7 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="FeedImageCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="560" id="Lab-gI-2Ie">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" restorationIdentifier="FeedImageCell" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="560" id="Lab-gI-2Ie" customClass="FeedImageCell" customModule="Prototype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="414" height="560"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Lab-gI-2Ie" id="ayM-dA-s1i">
@@ -112,6 +112,12 @@
                                         <constraint firstItem="70z-nH-7bp" firstAttribute="trailing" secondItem="ayM-dA-s1i" secondAttribute="trailingMargin" id="xI6-nm-CIQ"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descriptionLabel" destination="syn-oX-FGp" id="NSD-h4-xAv"/>
+                                    <outlet property="feedImageView" destination="F8k-NG-tjE" id="gfg-aR-vmJ"/>
+                                    <outlet property="locationContainer" destination="3hJ-aE-zbb" id="p3E-tH-gXc"/>
+                                    <outlet property="locationLabel" destination="jOK-7w-LDb" id="cc1-M5-dLi"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
