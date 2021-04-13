@@ -41,7 +41,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
   func test_load_deliversErrorsonClientError() {
     let (client,sut) = makeSUT()
     expect(sut, toCompleteWith: failure(.connectivity), when: {
-      let clientError = NSError(domain: "Test", code: 0)
+        _ = NSError(domain: "Test", code: 0)
       client.complete(with: RemoteFeedLoader.Error.connectivity)
     })
   }
@@ -64,7 +64,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
   func test_load_deliversErrorOn200responseWithInvalidJSON(){
        let (client,sut) = makeSUT()
     expect(sut, toCompleteWith: failure(.invalidData)) {
-       let invalidJSON = Data(bytes: "invalid json".utf8)
+       let invalidJSON = Data("invalid json".utf8)
               client.complete(withStatusCode: 200, data: invalidJSON)
     }
   }
@@ -213,14 +213,13 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     
   }
 
-private func makeItem(id: UUID, description: String? = nil,location: String? = nil,imageURL: URL) -> (model: FeedItem, json: [String:Any]) {
-  let item = FeedItem(id: id, description: description, location: location, imageURL: imageURL)
+private func makeItem(id: UUID, description: String? = nil,location: String? = nil,imageURL: URL) -> (model: FeedImage, json: [String:Any]) {
+    let item = FeedImage(id: id, description: description, location: location, url: imageURL)
   let json = ["id":id.uuidString,
               "description":description,
               "location":location,
-              "image":imageURL.absoluteString].reduce(into: [String:Any]()) { (acc,e) in
-                if e.value != nil { acc[e.key] = e.value }
-                }
+              "image":imageURL.absoluteString].compactMapValues({$0})
+    
   return (item,json)
 }
 
@@ -231,9 +230,9 @@ private func makeItem(id: UUID, description: String? = nil,location: String? = n
     return messeges.map { $0.url }
   }
 
-  private var messeges = [(url: URL, completion: (HTTPClientResult) -> Void)]()
+    private var messeges = [(url: URL, completion: (HTTPClient.Result) -> Void)]()
   
-  func get(from url: URL,completion: @escaping ((HTTPClientResult) -> Void)) {
+  func get(from url: URL,completion: @escaping ((HTTPClient.Result) -> Void)) {
       messeges.append((url,completion))
   }
   
@@ -243,7 +242,7 @@ private func makeItem(id: UUID, description: String? = nil,location: String? = n
   
   func complete(withStatusCode code:Int,data:Data, at index:Int = 0) {
     let response = HTTPURLResponse(url: requestedURLs[index], statusCode: code, httpVersion: nil, headerFields: nil)!
-    messeges[index].completion(.success(data,response))
+    messeges[index].completion(.success((data,response)))
   }
   
 
