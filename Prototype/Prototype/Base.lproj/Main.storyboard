@@ -26,7 +26,7 @@
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="450" id="m5z-H4-gB1">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="FeedImageCell" rowHeight="450" id="m5z-H4-gB1" customClass="FeedImageCell" customModule="Prototype" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="44" width="414" height="450"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="m5z-H4-gB1" id="5kp-Wi-uJR">
@@ -36,7 +36,7 @@
                                         <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" axis="vertical" alignment="top" spacing="10" translatesAutoresizingMaskIntoConstraints="NO" id="aA7-FR-1g9">
                                             <rect key="frame" x="20" y="17" width="374" height="374"/>
                                             <subviews>
-                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="Lis-qw-HLG" userLabel="Location Container">
+                                                <stackView opaque="NO" contentMode="scaleToFill" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Lis-qw-HLG" userLabel="Location Container">
                                                     <rect key="frame" x="0.0" y="0.0" width="374" height="41"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w6A-Qv-eEr" userLabel="Pin  Container">
@@ -57,7 +57,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label Label" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HE7-lf-0Cc">
-                                                            <rect key="frame" x="10" y="0.0" width="364" height="20.5"/>
+                                                            <rect key="frame" x="15" y="0.0" width="359" height="20.5"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                             <nil key="highlightedColor"/>
@@ -106,6 +106,12 @@
                                         <constraint firstItem="aA7-FR-1g9" firstAttribute="top" secondItem="5kp-Wi-uJR" secondAttribute="topMargin" priority="999" constant="6" id="llp-5c-T2Y"/>
                                     </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="descritpionLabel" destination="GKU-rg-CJL" id="QfP-es-LF8"/>
+                                    <outlet property="feedImageView" destination="IRd-gz-cqz" id="jiA-LY-rqQ"/>
+                                    <outlet property="locationContainer" destination="Lis-qw-HLG" id="2hH-PS-fvt"/>
+                                    <outlet property="locationLabel" destination="HE7-lf-0Cc" id="saT-dT-hWm"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
