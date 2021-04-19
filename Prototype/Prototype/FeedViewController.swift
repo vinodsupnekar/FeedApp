@@ -37,6 +37,6 @@ extension FeedImageCell {
         descritpionLabel.text = model.description
         descritpionLabel.isHidden = model.description == nil
         
-        feedImageView.image = UIImage(named: model.imageName)
+        feedIn(UIImage(named: model.imageName))
     }
 }
