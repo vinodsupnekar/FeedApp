@@ -28,6 +28,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec{
     
     func test_retrieve_hasNoSideEffectsOnEmptyCache() {
         let sut = makeSUT()
+        FileManager.default.createFile(atPath: testSpecificStoreURL().path, contents: nil, attributes: nil)
         assertThatRetrievelHasNoSideEffectsOnEmptyCache(on: sut)
     }
     
@@ -41,7 +42,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec{
     func test_retrieve_hasNoSideEffectsOnNonEmptyCache() {
         let sut = makeSUT()
         
-        assertThatRetrievelHasNoSideEffectsOnEmptyCache(on: sut)
+        assertThatRetrievehHasNoSideEffectsOnNonEmptyCache(on: sut)
     }
     
     func test_retrieve_deliversFailureOnRetrievalError() {
@@ -53,7 +54,7 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec{
     
     func test_retrieve_hasNoSideEffectOnFailure() {
         let storeURL = testSpecificStoreURL()
-        let sut = makeSUT(storeURL: storeURL)
+        let sut = makeSUT()
         assertThatRetrivelHasNoSideEffectOnFailure(on: sut, store: storeURL)
     }
 
@@ -98,8 +99,8 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec{
     }
     
     func test_delete_hasNoSideEffectsOnDeletionEmptyCache() {
-        let noDeletionPermissionURL = cacheDirectory()
-        let sut = makeSUT(storeURL: noDeletionPermissionURL)
+//        let noDeletionPermissionURL = cacheDirectory()
+        let sut = makeSUT()
         assertThatDeleteHasNoSideEffectsOnDeletionEmptyCache(on: sut)
     }
         
@@ -178,7 +179,9 @@ class CodableFeedStoreTests: XCTestCase, FailableFeedStoreSpec{
     }
     
     private func testSpecificStoreURL() -> URL{
-        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
+        return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+
+//        return FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!.appendingPathComponent("\(type(of: self)).store")
     }
     
     

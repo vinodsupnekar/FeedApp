@@ -6,8 +6,12 @@
 //  Copyright © 2020 VinodS. All rights reserved.
 //
 
+#import <Foundation/Foundation.h>
+#if TARGET_OS_IPHONE
+#import <UIKit/UIKit.h>
+#else
 #import <Cocoa/Cocoa.h>
-
+#endif
 //! Project version number for EssentialFeed.
 FOUNDATION_EXPORT double EssentialFeedVersionNumber;
 

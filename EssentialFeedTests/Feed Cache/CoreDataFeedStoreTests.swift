@@ -54,25 +54,24 @@ class CoreDataFeedStoreTests: XCTestCase , FeedStoreSpecs {
     }
     
     func test_delete_deliversNoErrorOnEmptyCache() {
-        let sut = makeSUT()
-        
-        assertThatInsertDeliversNoErrorOnEmptyCache(on: sut)
+        let sut = makeSUT(url: noDeletePermissionURL())
+        assertThatDeleteDeliversErrorOnDeletionError(on: sut, store: noDeletePermissionURL())
     }
     
     func test_delete_hasNoSideEffectsOnEmptyCache() {
-        let sut = makeSUT()
+        let sut =  makeSUT(url: noDeletePermissionURL())
         
         assertThatDeleteDeliversNoErrorOnEmptyCache(on: sut)
     }
     
     func test_delete_deliversNoErrorOnNonEmptyCache() {
-        let sut = makeSUT()
+        let sut =  makeSUT(url: noDeletePermissionURL())
         
         assertThatDeleteDeliversNoErrorOnNonEmptyCache(on: sut)
     }
     
     func test_delete_emptiesPreviouslyInsertedCache() {
-        let sut = makeSUT()
+        let sut =  makeSUT(url: noDeletePermissionURL())
         
         assertThatDeleteEmptiesPreviouslyInsertedCache(on: sut)
     }
@@ -90,19 +89,23 @@ class CoreDataFeedStoreTests: XCTestCase , FeedStoreSpecs {
     }
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedStore {
-        // AnyClass is:-
-        // typealias AnyClass = AnyObject.Type
-        // Bundle(for: <#T##AnyClass#>)
-        
-//        let storeBundle = Bundle(for: CoreDataFeedStore.self )// .self)
-////        let storeURL = URL( fileURLWithPath: "/dev/null")
-//        let sut = try! CoreDataFeedStore(bundle: storeBundle)
-//        trackMemoryLeaks(sut)
-//        return sut
         let storeBundle = Bundle(for: CoreDataFeedStore.self)
         let storeURL = URL(fileURLWithPath: "/dev/null")
         let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
         trackMemoryLeaks(sut)
         return sut
     }
+    
+    private func makeSUT(file: StaticString = #file, line: UInt = #line,url: URL) -> FeedStore {
+        let storeBundle = Bundle(for: CoreDataFeedStore.self)
+        let storeURL = try! FileManager.default.url(for: .cachesDirectory, in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("aasas.txt")
+        let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)
+        trackMemoryLeaks(sut)
+        return sut
+    }
+    
+    private func noDeletePermissionURL() -> URL {
+        return URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+//        return try! FileManager.default.url(for: NSTemporaryDirectory(), in: .userDomainMask, appropriateFor: nil, create: false).appendingPathComponent("aasas.txt")
+        }
 }
