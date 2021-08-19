@@ -90,15 +90,6 @@ class CoreDataFeedStoreTests: XCTestCase , FeedStoreSpecs {
     }
     
     private func makeSUT(file: StaticString = #file, line: UInt = #line) -> FeedStore {
-        // AnyClass is:-
-        // typealias AnyClass = AnyObject.Type
-        // Bundle(for: <#T##AnyClass#>)
-        
-//        let storeBundle = Bundle(for: CoreDataFeedStore.self )// .self)
-////        let storeURL = URL( fileURLWithPath: "/dev/null")
-//        let sut = try! CoreDataFeedStore(bundle: storeBundle)
-//        trackMemoryLeaks(sut)
-//        return sut
         let storeBundle = Bundle(for: CoreDataFeedStore.self)
         let storeURL = URL(fileURLWithPath: "/dev/null")
         let sut = try! CoreDataFeedStore(storeURL: storeURL, bundle: storeBundle)

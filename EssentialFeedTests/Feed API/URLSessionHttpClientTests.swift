@@ -37,12 +37,13 @@ class URLSessionHttpClientTests : XCTestCase {
   
     func test_getFromURL_failsOnRequestError() {
         //Set-up
-      let error = anyNSError()
+      let requestError = anyNSError()
       
-      let receivedError = resultErrorFor(data: nil, response: nil, error: error)
+      let receivedError = resultErrorFor(data: nil, response: nil, error: requestError)
 
-      XCTAssertEqual(receivedError as NSError? , error)
-         
+        if let error = receivedError as NSError? {
+            XCTAssertEqual(error.code, requestError.code)
+        }
  }
   
      func test_getFromURL_failsOnAllInvalidRepreentationCases() {
