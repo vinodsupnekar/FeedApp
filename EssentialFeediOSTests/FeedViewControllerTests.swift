@@ -92,7 +92,7 @@ class FeedViewControllerTests: XCTestCase {
         sut.simulateFeedImageViewVisible(at: 1)
         XCTAssertEqual(loader.loadedImageURLs, [image0.url,image1.url], "Expected first image URL request once first view becomes visible")
     }
-    
+     
     func test_feedImageView_cancelsimageLoadingWhenNotVisibleAnymore() {
         let image0 = makeImage( url: URL(string: "http://url-0.com")!)
         let image1 = makeImage( url: URL(string: "http://url-1.com")!)
@@ -172,17 +172,23 @@ class FeedViewControllerTests: XCTestCase {
             let error = NSError(domain: "an error ", code: 0)
             feedRequests[index](.failure(error))
         }
-        
+                
         //MARK:- FeedImage Data Loader
         private(set) var loadedImageURLs =  [URL] ()
         private(set) var cancelsImageURLs = [URL]()
-
-        func loadImageData(from url: URL) {
-            loadedImageURLs.append(url)
-        }
         
-        func cancelsImageDateLoad(from url: URL) {
-            cancelsImageURLs.append(url)
+        private struct TaskSpy: FeedImageDataLoaderTask {
+            let cancelCallback: () -> Void
+            func cancel() {
+                cancelCallback()
+            }
+        }
+            
+        func loadImageData(from url: URL) ->  FeedImageDataLoaderTask {
+            loadedImageURLs.append(url)
+            return TaskSpy { [weak self ] in
+                self?.cancelsImageURLs.append(url)
+            }
         }
     }
 }
