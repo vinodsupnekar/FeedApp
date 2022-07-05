@@ -32,7 +32,6 @@ public final class RemoteFeedLoader: FeedLoader {
                 completion( RemoteFeedLoader.map(data, response: response))
             case .failure:
                 completion( .failure(Error.connectivity))
-
             break
           }
         }

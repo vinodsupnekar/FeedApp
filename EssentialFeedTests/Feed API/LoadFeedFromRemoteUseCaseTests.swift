@@ -171,6 +171,7 @@ class LoadFeedFromRemoteUseCaseTests: XCTestCase {
     let json = ["items":items]
     return try! JSONSerialization.data(withJSONObject: json)
   }
+    
 
   private func expect(_ sut:RemoteFeedLoader,toCompleteWith expectedResult:RemoteFeedLoader.Result,file: StaticString = #file,line: UInt = #line,when action:() -> Void) {
     
@@ -245,8 +246,5 @@ private func makeItem(id: UUID, description: String? = nil,location: String? = n
     messeges[index].completion(.success((data,response)))
   }
   
-
-
-
 }
 

@@ -15,5 +15,6 @@ public protocol HTTPClient {
     /// Clients are responsible to dispatch to appropriate threads, in needed
     typealias Result  = Swift.Result<(Data,HTTPURLResponse),Error>
     func get(from url: URL,completion: @escaping ((Result) -> Void))
+
 }
 
