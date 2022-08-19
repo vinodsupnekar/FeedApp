@@ -9,8 +9,8 @@ import Foundation
 
 extension FeedImageViewModel {
     static var prototypeFeed: [FeedImageViewModel] {
-        return [ FeedImageViewModel(description: "ssdsd sdsds  ssdsd sdsds ssdsd sdsds ssdsd sdsds ", location: "Pune", imageName: "image-1"),
-                 FeedImageViewModel(description: "ssdsd sdsds  ssdsd sdsds ssdsd sdsds ssdsd sdsds ssdsd sdsds  ssdsd sdsds ssdsd sdsds ssdsd sdsdsssdsd sdsds  ssdsd sdsds ssdsd sdsds ssdsd sdsds ", location: "Sanglu", imageName: "image-2"),
-                 FeedImageViewModel(description: nil, location: "Satara", imageName: "image-3")]
+        return [ FeedImageViewModel(description: "asas zasasxcxc xcxc ", location: "Pune", imageName: "image-1"),
+                 FeedImageViewModel(description: "ssdsd sdsds  ssdsd sdsds ssdsd sdsds ssdsd sdsds ssdsd sdsds  ssdsd sdsds ssdsd sdsds ssdsd sdsdsssdsd sdsds  ssdsd sdsds ssdsd sdsds ssdsd sdsds ", location: "Sangli", imageName: "image-2"),
+                 FeedImageViewModel(description: "zzz asasas  sxcsfdsfsfsfsfsfsfsfsfsf sfsf sf  sfsfsfsfsfsf sfsfsfsfsfsf wewewetyty tyty fgfgfg   sdsdasasas", location: nil, imageName: "image-3")]
     }
 }
