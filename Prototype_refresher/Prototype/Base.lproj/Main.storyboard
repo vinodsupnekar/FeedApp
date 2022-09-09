@@ -37,10 +37,10 @@
                                             <rect key="frame" x="29" y="17" width="365" height="552"/>
                                             <subviews>
                                                 <stackView opaque="NO" contentMode="scaleAspectFit" verticalHuggingPriority="1" alignment="top" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="sOh-qV-B4a" userLabel="Location Container">
-                                                    <rect key="frame" x="0.0" y="0.0" width="104.5" height="50"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="109.5" height="50"/>
                                                     <subviews>
                                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="E3K-rx-oPN">
-                                                            <rect key="frame" x="0.0" y="0.0" width="2.5" height="50"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="7.5" height="50"/>
                                                             <subviews>
                                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="mappin" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="zV5-lH-IWP">
                                                                     <rect key="frame" x="0.0" y="2.5" width="16.5" height="14"/>
@@ -56,7 +56,7 @@
                                                             </constraints>
                                                         </view>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="1" text="sdsdsd sdsdsd  xsf" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="100" translatesAutoresizingMaskIntoConstraints="NO" id="nb1-X2-nGF">
-                                                            <rect key="frame" x="17.5" y="0.0" width="87" height="41"/>
+                                                            <rect key="frame" x="22.5" y="0.0" width="87" height="41"/>
                                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                             <nil key="textColor"/>
                                                             <nil key="highlightedColor"/>
@@ -86,9 +86,8 @@
                                                         </userDefinedRuntimeAttribute>
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euG-mX-oKq">
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="1" text="asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="6" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="euG-mX-oKq">
                                                     <rect key="frame" x="0.0" y="435" width="330" height="117"/>
-                                                    <string key="text">asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad asdasdsadasdasdsad  asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad asdasdsad</string>
                                                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                                     <color key="textColor" red="0.29019607843137252" green="0.29019607843137252" blue="0.29019607843137252" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -103,7 +102,7 @@
                                                 <constraint firstItem="sOh-qV-B4a" firstAttribute="leading" secondItem="hjk-Oc-nBG" secondAttribute="leading" id="VJh-de-G1t"/>
                                                 <constraint firstItem="euG-mX-oKq" firstAttribute="leading" secondItem="hjk-Oc-nBG" secondAttribute="leading" id="eEz-3f-GCT"/>
                                                 <constraint firstAttribute="bottom" secondItem="euG-mX-oKq" secondAttribute="bottom" id="obd-9E-Y3W"/>
-                                                <constraint firstItem="sOh-qV-B4a" firstAttribute="width" secondItem="hjk-Oc-nBG" secondAttribute="width" multiplier="0.286301" id="tQW-tR-dep"/>
+                                                <constraint firstItem="sOh-qV-B4a" firstAttribute="width" secondItem="hjk-Oc-nBG" secondAttribute="width" multiplier="0.3" id="tQW-tR-dep"/>
                                             </constraints>
                                         </stackView>
                                     </subviews>
@@ -128,6 +127,13 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="My Feed " id="IyM-Cc-wdc"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="mm8-D0-Sa8">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <connections>
+                            <action selector="refresh" destination="LvR-dL-K9S" eventType="valueChanged" id="kna-hn-cCv"/>
+                        </connections>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="4mW-rt-oQW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
